@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PageController::class, "login"])->name("login");
+Route::get('/signup', [PageController::class, "signup"])->name("signup");
+Route::post("/signup", [ServerController::class, "signup"])->name("signupLogic");
+Route::get("/checksignup", [ServerController::class, "checksignup"]);
