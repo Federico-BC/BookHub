@@ -13,12 +13,19 @@
       border-color: orange !important;
       box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.25) !important;
     }
+    body{
+      background-image: url("images/fondo2.jpg");
+    }
+    #color{
+      background-color: rgba(238, 238, 238, 1);
+    }
+    
   </style>
 </head>
 
 <body class="container pt-5 ">
   <main class="card mx-auto" style="width: 395px;" role="main">
-    <div class="card-body justify-content-center px-4">
+    <div class="card-body justify-content-center px-4" id="color">
       <h2 class="card-title text-center" style="color: orange">BookHub</h2>
       <h5 class="card-subtitle mt-2 text-body-secondary">Registro de usuario</h5>
       <form id="signupForm" action="{{ route('signupLogic') }}" method="post">
