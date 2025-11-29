@@ -50,11 +50,18 @@ class ServerController extends Controller
                 "password" => password_hash($request->password, PASSWORD_DEFAULT),
                 "user_type" => 1
             ]);
+
+            //copy paste pfp
+            $origen = public_path('ProfilePictures/defaultPFP.png');
+            $destino = public_path("ProfilePictures/" . $user->name . ".png");
+            copy($origen, $destino);
+
             return redirect()->route("login");
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             "username" => "string|required",
             "password" => "string|required"
@@ -63,16 +70,16 @@ class ServerController extends Controller
             $user = User::where("name", $request->username)->firstOrFail();
             if (password_verify($request->password, $user->password)) {
                 session_start();
-                $_SESSION["username"]=$request->username;
+                $_SESSION["username"] = $request->username;
                 return redirect()->route("home");
-            }else{
+            } else {
                 session_start();
-                $_SESSION["error"]= "El usuario o contraseña es incorrecto";
+                $_SESSION["error"] = "El usuario o contraseña es incorrecto";
                 return redirect()->route("login");
             }
         } catch (ModelNotFoundException) {
             session_start();
-            $_SESSION["error"]= "El usuario o contraseña es incorrecto";
+            $_SESSION["error"] = "El usuario o contraseña es incorrecto";
             return redirect()->route("login");
         }
     }
