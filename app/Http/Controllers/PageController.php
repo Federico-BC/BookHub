@@ -27,4 +27,9 @@ class PageController extends Controller
         }
         return view('signup', compact("forminfo"));
     }
+
+    public function home()
+    {
+       return view('home'); 
+    }
 }
