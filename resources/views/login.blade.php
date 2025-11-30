@@ -24,7 +24,7 @@
 <body class="container pt-5">
   <main class="card mx-auto" style="width: 395px;" role="main">
     <div class="card-body justify-content-center px-4" id="color">
-      <h2 class="card-title text-center" style="color: orange">BookHub</h2>
+      <h2 class="card-title text-center" style="color: orange; font-weight: bold;">BookHub</h2>
       <h5 class="card-subtitle mt-2 text-body-secondary">Inicio de sesión</h5>
 
     <form id="loginForm" action="{{ route('loginLogic') }}" method="post">
