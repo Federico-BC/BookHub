@@ -86,6 +86,7 @@ class ServerController extends Controller
 
     public function logout()
     {
+        session_start();
         session_destroy();
         return redirect()->route("login");
     }
