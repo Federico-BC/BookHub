@@ -42,7 +42,7 @@
       </div>
 
       @if (isset($error))
-      <p>{{ $error }}</p>
+      <p class="text-danger">{{ $error }}</p>
       @endif
 
       <div class="d-grid mx-auto">
