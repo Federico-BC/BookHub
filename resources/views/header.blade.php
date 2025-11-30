@@ -25,7 +25,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a href="#" class="dropdown-item">Ajustes de cuenta</a></li>
-          <li><a href="#" class="dropdown-item text-danger">Cerrar sesión</a></li>
+          <li><a href="{{ route("logout") }}" class="dropdown-item text-danger">Cerrar sesión</a></li>
         </ul>
       </div>
     </div>
