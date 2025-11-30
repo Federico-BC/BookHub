@@ -30,6 +30,8 @@ class PageController extends Controller
 
     public function home()
     {
-       return view('home'); 
+        session_start();
+        $username = $_SESSION["username"];
+        return view('home', compact("username"));
     }
 }
