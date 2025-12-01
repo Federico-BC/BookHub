@@ -27,4 +27,11 @@ class PageController extends Controller
         }
         return view('signup', compact("forminfo"));
     }
+
+    public function home()
+    {
+        session_start();
+        $username = $_SESSION["username"];
+        return view('home', compact("username"));
+    }
 }
