@@ -34,4 +34,44 @@ class PageController extends Controller
         $username = $_SESSION["username"];
         return view('home', compact("username"));
     }
+
+    public function search(Request $request) {
+
+        session_start();
+
+        $username = $_SESSION["username"];
+
+        $searchTerm = $request->term;
+
+        $petitionQueryUrl = "https://openlibrary.org/search.json?limit=10&q=";
+
+        $parsedUrl= urlencode($searchTerm);
+
+        $finalUrl = $petitionQueryUrl . $parsedUrl;
+
+        $curl = curl_init($finalUrl);
+
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10
+        ]);
+
+        $response = curl_exec($curl);
+
+        $data = json_decode($response, true);
+
+        $booksFound = isset($data["numFound"]) && $data["numFound"] > 0;
+
+        $booksOlids = [];
+
+        if (isset($data["docs"])) {
+            foreach ($data["docs"] as $bookInfo) {
+                if (isset($bookInfo["cover_edition_key"])) {
+                    $booksOlids[] = $bookInfo["cover_edition_key"];
+                }
+            }
+        }
+        
+        return view('search', compact("username", "searchTerm", "booksFound", "booksOlids"));
+    }
 }
