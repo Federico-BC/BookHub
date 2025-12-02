@@ -31,13 +31,23 @@ class PageController extends Controller
     public function home()
     {
         session_start();
+        
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
+
         $username = $_SESSION["username"];
+
         return view('home', compact("username"));
     }
 
     public function search(Request $request) {
 
         session_start();
+
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
 
         $username = $_SESSION["username"];
 
