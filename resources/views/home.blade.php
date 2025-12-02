@@ -38,13 +38,13 @@
 </style>
 
 <div class="container content-wrapper">
-    <form action="" method="post" class="input-group shadow-sm" id="buscador">
+   <form action="{{ route('search') }}" method="get" class="input-group shadow-sm" id="buscador">
         <div class="w-100 text-center">
             <div class="input-group shadow-sm">
                 <span class="input-group-text bg-white">
                     🔍
                 </span>
-                <input type="text" class="form-control" placeholder="Buscar...">
+                <input type="text" name="term" class="form-control" placeholder="Buscar...">
             </div>
         </div>
     </form>
