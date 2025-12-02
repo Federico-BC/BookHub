@@ -10,3 +10,4 @@ Route::get('/signup', [PageController::class, "signup"])->name("signup");
 Route::post("/signup", [ServerController::class, "signup"])->name("signupLogic");
 Route::get("/home", [PageController::class, "home"])->name("home");
 Route::get("/logout", [ServerController::class, "logout"])->name("logout");
+Route::get("/search", [PageController::class, "search"])->name("search");
