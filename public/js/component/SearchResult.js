@@ -36,8 +36,7 @@ export class SearchResult extends HTMLElement {
 
                 <div class="col-9 col-md-10">
                     <h5 class="book-title mb-1">
-                        <a href="https://openlibrary.org/books/${olid}"
-                           target="_blank"
+                        <a href="/book/${olid}"
                            style="color: black; text-decoration: none;">
                            ${bookTitle}
                         </a>
