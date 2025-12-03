@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Favoritos;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -89,5 +90,37 @@ class ServerController extends Controller
         session_start();
         session_destroy();
         return redirect()->route("login");
+    }
+
+    public function addFavoriteBook(Request $request) {
+
+        session_start();
+
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
+
+        $user = User::where("name", $_SESSION["username"])->firstOrFail();
+
+        Favoritos::create([
+            "user_id" => $user->id,
+            "olid" => $request->olid
+        ]);
+
+        return redirect()->route('book', ["olid" => $request->olid]);
+    }
+
+    public function removeFavoriteBook(Request $request) {
+        session_start();
+
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
+
+        $user = User::where("name", $_SESSION["username"])->firstOrFail();
+
+        Favoritos::where("user_id", $user->id)->where("olid", $request->olid)->delete();
+
+        return redirect()->route('book', ["olid" => $request->olid]);
     }
 }
