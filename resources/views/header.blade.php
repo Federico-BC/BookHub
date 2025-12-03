@@ -21,7 +21,7 @@
       <div class="nav-item dropdown">
         <a href="#" role="button" data-bs-toggle="dropdown" class="nav-link dropdown-toggle d-flex align-items-center">
           {{ $username }}
-          <img src="ProfilePictures/{{ $username }}.png" alt="Foto de perfil" class="rounded-circle ms-2" width="30" height="30">
+          <img src="/ProfilePictures/{{ $username }}.png" alt="Foto de perfil" class="rounded-circle ms-2" width="30" height="30">
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a href="#" class="dropdown-item">Ajustes de cuenta</a></li>
