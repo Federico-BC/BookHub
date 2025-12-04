@@ -13,8 +13,8 @@
   <header class="navbar navbar-light bg-light px-3 shadow-sm">
     <div class="d-flex align-items-left">
       <h1 class="navbar-brand card-title text-center" style="color: orange; font-weight: bold">BookHub</h1>
-      <a class="navbar-brand card-title text-center" href="">Inicio</a>
-      <a class="navbar-brand card-title text-center" href="">Perfil</a>
+      <a class="navbar-brand card-title text-center" href="{{ route("home") }}">Inicio</a>
+      <a class="navbar-brand card-title text-center" href="{{ route("profile", ["username" => $username]) }}">Perfil</a>
     </div>
 
     <div class="d-flex align-items-center">
