@@ -180,4 +180,35 @@ class PageController extends Controller
 
     return view('book', compact("username", "title", "pages", "publisher", "isbn", "authorRoute", "fav", "description", "olid", "authorName"));
 }
+
+    public function profile($profileUsername) {
+
+        session_start();
+
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
+
+        $username = $_SESSION["username"];
+
+        try{
+            $user = User::where("name", $profileUsername)->firstOrFail();
+            $exists = true;
+            $email = $user->email;
+    
+            $rawFavs = Favoritos::where("user_id", $user->id)->get(["olid"]);
+
+            $favs = [];
+
+            foreach ($rawFavs as $rawFav) {
+                $favs[] = $rawFav->olid;
+            }
+
+            return view('profile', compact("username", "exists", "profileUsername", "email", "favs"));
+
+        } catch (ModelNotFoundException) {
+            $exists = false;
+            return view('profile', compact("username", "exists"));
+        }
+    }
 }
