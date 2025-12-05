@@ -24,7 +24,7 @@
           <img src="/ProfilePictures/{{ $username }}.png" alt="Foto de perfil" class="rounded-circle ms-2" width="30" height="30">
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a href="#" class="dropdown-item">Ajustes de cuenta</a></li>
+          <li><a href="{{ route("accountSettings") }}" class="dropdown-item">Ajustes de cuenta</a></li>
           <li><a href="{{ route("logout") }}" class="dropdown-item text-danger">Cerrar sesión</a></li>
         </ul>
       </div>

@@ -68,8 +68,5 @@
         <custom-profilebookcard olid="{{ $favOlid }}"></custom-profilebookcard>
         @endforeach
     </div>
-    <div class="my-5 text-center">
-        <button class="btn btn-outline-secondary">Editar Perfil</button>
-    </div>
 </div>
 @endsection
