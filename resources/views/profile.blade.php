@@ -1,7 +1,7 @@
 @extends('header')
 
 @section("head")
-<title>{{ $profileUsername }}</title>
+<title>{{ $user->name }}</title>
 <script type="module" src="/js/profile.js"></script>
 @endsection
 
@@ -9,6 +9,10 @@
 <style>
     body {
         background-image: url("../images/fondo1.jpg"); 
+    }
+    .form-control:focus {
+        border-color: orange !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.25) !important;
     }
     .profile-header {
         background: linear-gradient(135deg, #ffa939ff 0%, #83532bff 100%); 
@@ -46,16 +50,22 @@
 
 <div class="profile-header">
     <div class="container text-center">
-        <img src="/ProfilePictures/{{ $profileUsername }}.png" class="rounded-circle profile-img mb-3" alt="Foto de Perfil">
-        
-        <h1 class="display-5">{{ $profileUsername}}</h1>
-        
-        <p class="lead">{{ $email }}</p>
+        <img src="/ProfilePictures/{{ $user->name }}.png" class="rounded-circle profile-img mb-3" alt="Foto de Perfil">
+        <h1 class="display-5">{{ $user->name }}</h1>
+        <p class="lead">{{ $user->email }}</p>
     </div>
 </div>
 
 <div class="container">
-    
+    <form action="{{ route('search.user') }}" method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="query" placeholder="Buscar usuario..." required>
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+</div>
+
+<div class="container">
     <div class="row">
         <div class="col-12">
             <h2 class="mb-4">📚 Libros Favoritos</h2>
@@ -65,7 +75,7 @@
 
     <div class="row g-4 justify-content-center">
         @foreach ($favs as $favOlid)
-        <custom-profilebookcard olid="{{ $favOlid }}"></custom-profilebookcard>
+            <custom-profilebookcard olid="{{ $favOlid }}"></custom-profilebookcard>
         @endforeach
     </div>
 </div>
