@@ -15,3 +15,5 @@ Route::post("/book/addFav", [ServerController::class, "addFavoriteBook"])->name(
 Route::post("book/removeFav", [ServerController::class, "removeFavoriteBook"])->name("removeFav");
 Route::get("/book/{olid}", [PageController::class, "book"])->name("book");
 Route::get("/profile/{username}", [PageController::class, "profile"])->name("profile");
+Route::get("/editProfile", [PageController::class, "editProfile"])->name("accountSettings");
+Route::post("/editProfile/save", [ServerController::class, "saveProfileChanges"])->name("saveProfileChanges");

@@ -211,4 +211,20 @@ class PageController extends Controller
             return view('profile', compact("username", "exists"));
         }
     }
+
+    public function editProfile() {
+        session_start();
+
+        if (!isset($_SESSION["username"])) {
+            return redirect()->route('login');
+        }
+
+        $username = $_SESSION["username"];
+
+        $user = User::where("name", $username)->first();
+
+        $email = $user->email;
+
+        return view('editProfile', compact("username", "email"));
+    }
 }
