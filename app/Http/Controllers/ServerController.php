@@ -123,4 +123,70 @@ class ServerController extends Controller
 
         return redirect()->route('book', ["olid" => $request->olid]);
     }
+
+    public function saveProfileChanges(Request $request) {
+
+        session_start();
+
+        if (isset($request->newUsername)) {
+            $request->validate([
+                "newUsername" => "string|min:3|max:10|regex:/^[a-zA-Z\d]{3,10}$/"
+            ]);
+        }
+
+        if (isset($request->newEmail)) {
+            $request->validate([
+                "newEmail" => "string|regex:/^[a-zA-Z]+[a-zA-Z\d]*@[a-zA-Z]+\.[a-z]+$/"
+            ]);
+        }
+
+        if (isset($request->newPfp)) {
+            $request->validate([
+                "newPfp" => "image|max:5120"
+            ]);
+        }
+
+        $photo = $request->file("newPfp");
+
+        $newUsername = (isset($request->newUsername) && trim($request->newUsername) != "") ? $request->newUsername : $_SESSION["username"];
+
+        $oldUsername = $_SESSION['username'];
+
+        $photoChanged = false;
+
+        if (isset($photo)) {
+
+            $oldPhotoPath = public_path("ProfilePictures/$oldUsername.png");
+
+            unlink($oldPhotoPath);
+
+            $photo->move(public_path("ProfilePictures"), "$newUsername.png");
+
+            $photoChanged = true;
+        }
+
+        $bdUser = User::where("name", $_SESSION["username"])->first();
+
+        if (isset($request->newUsername) && trim($request->newUsername) != "" && trim($request->newUsername) != $bdUser->name) {
+            $bdUser->name = $request->newUsername;
+
+            if(!$photoChanged) {
+
+                $oldPhotoPath = public_path("ProfilePictures/$oldUsername.png");
+                $newPhotoPath = public_path("ProfilePictures/$newUsername.png");
+
+                rename($oldPhotoPath, $newPhotoPath);
+            }
+        }
+
+        if (isset($request->newEmail) && trim($request->newEmail) != "" && trim($request->newEmail) != $bdUser->email) {
+            $bdUser->email = $request->newEmail;
+        }
+
+        $bdUser->save();
+
+        $_SESSION["username"] = $bdUser->name;
+
+        return redirect()->route('accountSettings');
+    }
 }
