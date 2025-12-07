@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favoritos;
+use App\Models\Leido;
+use App\Models\PorLeer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -99,13 +101,41 @@ class ServerController extends Controller
         if (!isset($_SESSION["username"])) {
             return redirect()->route('login');
         }
+        
+        $request->validate([
+            "olid" => "string|required",
+            "listCode" => "integer|required"
+        ]);
 
         $user = User::where("name", $_SESSION["username"])->firstOrFail();
 
-        Favoritos::create([
-            "user_id" => $user->id,
-            "olid" => $request->olid
-        ]);
+        switch ($request->listCode) {
+            case '1': {
+                
+                Favoritos::create([
+                    "user_id" => $user->id,
+                    "olid" => $request->olid
+                ]);
+
+                break;
+            }
+            case '2': {
+                Leido::create([
+                    "user_id" => $user->id,
+                    "olid" => $request->olid
+                ]);
+                
+                break;
+            }
+            case '3': {
+                PorLeer::create([
+                    "user_id" => $user->id,
+                    "olid" => $request->olid
+                ]);
+
+                break;
+            }
+        }
 
         return redirect()->route('book', ["olid" => $request->olid]);
     }
@@ -117,9 +147,33 @@ class ServerController extends Controller
             return redirect()->route('login');
         }
 
+        $request->validate([
+            "olid" => "string|required",
+            "listCode" => "integer|required"
+        ]);
+
         $user = User::where("name", $_SESSION["username"])->firstOrFail();
 
-        Favoritos::where("user_id", $user->id)->where("olid", $request->olid)->delete();
+        switch ($request->listCode) {
+            case '1': {
+
+                Favoritos::where("user_id", $user->id)->where("olid", $request->olid)->delete();
+
+                break;
+            }     
+            case '2': {
+
+                Leido::where("user_id", $user->id)->where("olid", $request->olid)->delete();
+
+                break;
+            }
+            case '3': {
+
+                PorLeer::where("user_id", $user->id)->where("olid", $request->olid)->delete();
+
+                break;
+            }
+        }
 
         return redirect()->route('book', ["olid" => $request->olid]);
     }

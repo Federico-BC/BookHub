@@ -79,4 +79,32 @@
         @endforeach
     </div>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">📚 Libros Ya Leidos</h2>
+            <hr class="mb-4">
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        @foreach ($readed as $readedOlid)
+            <custom-profilebookcard olid="{{ $readedOlid }}"></custom-profilebookcard>
+        @endforeach
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">📚 Libros Por Leer</h2>
+            <hr class="mb-4">
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        @foreach ($toRead as $toReadOlid)
+            <custom-profilebookcard olid="{{ $toReadOlid }}"></custom-profilebookcard>
+        @endforeach
+    </div>
+</div>
 @endsection
