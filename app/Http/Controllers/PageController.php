@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favoritos;
+use App\Models\Leido;
+use App\Models\PorLeer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -179,8 +181,22 @@ class PageController extends Controller
         } catch (ModelNotFoundException $e) {
             $fav = false;
         }
+        
+        try {
+            Leido::where("user_id", $user->id)->where("olid", $olid)->firstOrFail();
+            $read = true;
+        } catch (ModelNotFoundException) {
+            $read = false;
+        }
+        
+        try {
+            PorLeer::where("user_id", $user->id)->where("olid", $olid)->firstOrFail();
+            $toRead = true;
+        } catch (ModelNotFoundException) {
+            $toRead = false;
+        }
 
-        return view('book', compact("username", "title", "pages", "publisher", "isbn", "authorRoute", "fav", "description", "olid", "authorName"));
+        return view('book', compact("username", "title", "pages", "publisher", "isbn", "authorRoute", "fav", "read", "toRead", "description", "olid", "authorName"));
     }
 
     public function profile($profileUsername)
@@ -202,14 +218,26 @@ class PageController extends Controller
 
             // Obtén los libros favoritos del usuario
             $rawFavs = Favoritos::where("user_id", $user->id)->get(["olid"]);
-            $favs = [];
+            $rawReads = Leido::where("user_id", $user->id)->get(["olid"]);
+            $rawToRead = PorLeer::where("user_id", $user->id)->get(["olid"]);
 
+            $favs = [];
             foreach ($rawFavs as $rawFav) {
                 $favs[] = $rawFav->olid;
             }
 
+            $readed = [];
+            foreach ($rawReads as $rawRead) {
+                $readed[] = $rawRead->olid;
+            }
+            
+            $toRead = [];
+            foreach ($rawToRead as $rawToReadBook) {
+                $toRead[] = $rawToReadBook->olid;
+            }
+
             // Pasa los datos correctos a la vista
-            return view('profile', compact("username", "exists", "profileUsername", "email", "favs", "user"));
+            return view('profile', compact("username", "exists", "profileUsername", "email", "favs", "readed", "toRead", "user"));
         } catch (ModelNotFoundException) {
             // Si el usuario no existe, muestra un mensaje o redirige
             $exists = false;
